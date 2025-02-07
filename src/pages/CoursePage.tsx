@@ -1,17 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react'; // Make sure to import useState
 import { useParams, Link } from 'react-router-dom';
 import { 
-  BookOpen, 
   CheckCircle, 
-  PlayCircle, 
-  FileText, 
   PieChart,
   ArrowLeft,
   Download,
   Clock
 } from 'lucide-react';
 
-// Mock course data - in a real app, this would come from an API
 const courseData = {
   'SCS2201': {
     id: 'SCS2201',
@@ -24,28 +20,32 @@ const courseData = {
         name: 'Introduction to Data Structures',
         completed: true,
         materials: ['Lecture Notes', 'Tutorial Sheet'],
-        duration: '2 hours'
+        duration: '2 hours',
+        content: 'Detailed content for this topic...'
       },
       {
         id: 2,
         name: 'Arrays and Linked Lists',
         completed: true,
         materials: ['Lecture Recording', 'Lab Materials'],
-        duration: '3 hours'
+        duration: '3 hours',
+        content: 'Detailed content for this topic...'
       },
       {
         id: 3,
         name: 'Trees and Graphs',
         completed: false,
         materials: ['Lecture Slides', 'Practice Questions'],
-        duration: '4 hours'
+        duration: '4 hours',
+        content: 'Detailed content for this topic...'
       },
       {
         id: 4,
         name: 'Sorting Algorithms',
         completed: false,
         materials: ['Lecture Notes', 'Assignment'],
-        duration: '3 hours'
+        duration: '3 hours',
+        content: 'Detailed content for this topic...'
       }
     ],
     quizzes: [
@@ -86,12 +86,17 @@ const courseData = {
       }
     ]
   }
-  // Add more courses as needed
 };
 
 const CoursePage: React.FC = () => {
   const { courseId } = useParams();
   const course = courseData[courseId as keyof typeof courseData];
+
+  const [expandedTopic, setExpandedTopic] = useState<number | null>(null);
+
+  const handleToggleTopic = (topicId: number) => {
+    setExpandedTopic(prev => (prev === topicId ? null : topicId));
+  };
 
   if (!course) {
     return <div>Course not found</div>;
@@ -103,7 +108,7 @@ const CoursePage: React.FC = () => {
         {/* Header */}
         <div className="bg-white rounded-lg shadow-md p-6">
           <Link 
-            to="/dashboard" 
+            to="/home" 
             className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-4"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
@@ -159,6 +164,20 @@ const CoursePage: React.FC = () => {
                         ))}
                       </div>
                     </div>
+
+                    {/* Expandable Topic Content */}
+                    {expandedTopic === topic.id && (
+                      <div className="mt-4">
+                        <p>{topic.content}</p>
+                      </div>
+                    )}
+
+                    <button
+                      onClick={() => handleToggleTopic(topic.id)}
+                      className="mt-2 text-blue-600"
+                    >
+                      {expandedTopic === topic.id ? 'Hide Content' : 'Show Content'}
+                    </button>
                   </div>
                 ))}
               </div>
@@ -188,8 +207,8 @@ const CoursePage: React.FC = () => {
               </div>
             </div>
 
-          {/* Assignments */}
-          <div className="bg-white rounded-lg shadow-md p-6">
+            {/* Assignments */}
+            <div className="bg-white rounded-lg shadow-md p-6">
               <h2 className="text-xl font-semibold mb-4">Assignments</h2>
               <div className="space-y-3">
                 {course.assignments.map((assignment) => (

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Eye, EyeOff, ArrowLeft, ArrowRight, Check } from 'lucide-react';
+import { Eye, EyeOff, ArrowLeft, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 interface SignupData {
@@ -20,6 +20,8 @@ const SignupPage: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState<Partial<SignupData>>({});
   const [isLoading, setIsLoading] = useState(false);
+  const [accountCreated, setAccountCreated] = useState(false); // New state to track account creation
+  const [isADHDSignup, setIsADHDSignup] = useState(false); // State to track the user's preference
 
   const validateStep = (currentStep: number): boolean => {
     const newErrors: Partial<SignupData> = {};
@@ -84,9 +86,10 @@ const SignupPage: React.FC = () => {
 
     setIsLoading(true);
     try {
-      // Add your signup logic here
-      await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate API call
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1500));
       console.log('Signup attempted with:', formData);
+      setAccountCreated(true); // Account successfully created
     } catch (err) {
       setErrors({ email: 'Signup failed. Please try again.' });
     } finally {
@@ -200,79 +203,134 @@ const SignupPage: React.FC = () => {
     }
   };
 
+  const renderADHDSignup = () => {
+    return (
+      <div className="space-y-4">
+        <h2 className="text-xl font-semibold">User-Friendly Signup</h2>
+        <p className="text-sm text-gray-600">We’ve simplified the signup process to help you stay focused.</p>
+        {/* Render a simplified signup form */}
+        <div className="space-y-2">
+          <label htmlFor="name" className="block text-sm font-medium text-slate-700">
+            Full Name
+          </label>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            value={formData.name}
+            onChange={handleChange}
+            className="w-full p-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+            placeholder="Enter your full name"
+          />
+        </div>
+        <div className="space-y-2">
+          <label htmlFor="email" className="block text-sm font-medium text-slate-700">
+            Email Address
+          </label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            value={formData.email}
+            onChange={handleChange}
+            className="w-full p-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+            placeholder="your@email.com"
+          />
+        </div>
+        <div className="space-y-2">
+          <label htmlFor="password" className="block text-sm font-medium text-slate-700">
+            Password
+          </label>
+          <input
+            id="password"
+            name="password"
+            type={showPassword ? 'text' : 'password'}
+            value={formData.password}
+            onChange={handleChange}
+            className="w-full p-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+            placeholder="Create a strong password"
+          />
+        </div>
+        <div className="space-y-2">
+          <label htmlFor="confirmPassword" className="block text-sm font-medium text-slate-700">
+            Confirm Password
+          </label>
+          <input
+            id="confirmPassword"
+            name="confirmPassword"
+            type={showPassword ? 'text' : 'password'}
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            className="w-full p-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+            placeholder="Confirm your password"
+          />
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
       <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-8">
-        {/* Progress bar */}
-        <div className="mb-8">
-          <div className="flex justify-between mb-2">
-            {[1, 2, 3].map((stepNumber) => (
-              <div
-                key={stepNumber}
-                className={`flex items-center justify-center w-8 h-8 rounded-full
-                  ${stepNumber === step ? 'bg-blue-600 text-white' :
-                    stepNumber < step ? 'bg-green-500 text-white' : 'bg-slate-200 text-slate-600'
-                  }`}
-              >
-                {stepNumber < step ? (
-                  <Check className="h-5 w-5" />
-                ) : (
-                  stepNumber
-                )}
-              </div>
-            ))}
-          </div>
-          <div className="h-2 bg-slate-200 rounded-full">
-            <div
-              className="h-full bg-blue-600 rounded-full transition-all duration-300"
-              style={{ width: `${((step - 1) / 2) * 100}%` }}
-            />
-          </div>
+        <div className="flex justify-between mb-6">
+          <button
+            onClick={() => setIsADHDSignup(false)}
+            className={`px-4 py-2 rounded-lg text-sm font-semibold ${
+              !isADHDSignup ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'
+            }`}
+          >
+            Default Signup
+          </button>
+          <button
+            onClick={() => setIsADHDSignup(true)}
+            className={`px-4 py-2 rounded-lg text-sm font-semibold ${
+              isADHDSignup ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'
+            }`}
+          >
+            Signup Option 02
+          </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {renderStep()}
-
-          <div className="flex justify-between pt-4">
-            {step > 1 && (
-              <button
-                type="button"
-                onClick={handleBack}
-                className="flex items-center px-4 py-2 text-slate-600 hover:text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
-              >
-                <ArrowLeft className="h-4 w-4 mr-2" />
-                Back
-              </button>
-            )}
-            {step < 3 ? (
-              <button
-                type="button"
-                onClick={handleNext}
-                className="flex items-center ml-auto px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
-              >
-                Next
-                <ArrowRight className="h-4 w-4 ml-2" />
-              </button>
-            ) : (
-              <button
-                type="submit"
-                disabled={isLoading}
-                className={`flex items-center ml-auto px-4 py-2 bg-blue-600 text-white rounded-lg
-                  hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
-                  transition-colors ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
-              >
-                {isLoading ? 'Creating Account...' : 'Create Account'}
-              </button>
-            )}
-          </div>
-        </form>
-
-        <div className="mt-6 text-center text-sm text-slate-600">
-          Already have an account?{' '}
-          <Link to="/login" className="text-blue-600 hover:text-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded">
-            Log in
+        <div className="mb-4">
+          <Link to="/login" className="text-sm text-blue-500">
+            Back to Login Page
           </Link>
         </div>
+
+        {!isADHDSignup ? renderStep() : renderADHDSignup()}
+
+        <div className="flex justify-between mt-6">
+          {step > 1 && (
+            <button
+              onClick={handleBack}
+              className="px-4 py-2 bg-gray-200 text-sm font-semibold rounded-lg"
+            >
+              <ArrowLeft className="h-4 w-4 inline-block mr-2" /> Back
+            </button>
+          )}
+          {step < 3 ? (
+            <button
+              onClick={handleNext}
+              className="px-4 py-2 bg-blue-500 text-white text-sm font-semibold rounded-lg"
+            >
+              Next <ArrowRight className="h-4 w-4 inline-block ml-2" />
+            </button>
+          ) : (
+            <button
+              onClick={handleSubmit}
+              className="px-4 py-2 bg-blue-500 text-white text-sm font-semibold rounded-lg"
+              disabled={isLoading}
+            >
+              {isLoading ? 'Creating...' : 'Create Account'}
+            </button>
+          )}
+        </div>
+
+        {accountCreated && (
+          <div className="mt-4 text-green-500 text-sm font-semibold">
+            Account successfully created! You can now <Link to="/login" className="text-blue-500">log in</Link>.
+          </div>
+        )}
       </div>
     </div>
   );

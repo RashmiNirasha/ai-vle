@@ -4,6 +4,8 @@ import LoginPage from './pages/LoginPage';
 import Dashboard from './pages/dashboard';
 import SignupPage from './pages/SignupPage';
 import CoursePage from './pages/CoursePage';
+import Timetable from 'pages/Timetable';
+import TasksPage from 'pages/TasksPage';
 
 const App: React.FC = () => {
   return (
@@ -12,6 +14,8 @@ const App: React.FC = () => {
         <Route path="/home" element={<Dashboard />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
+        <Route path="/timetable" element={<Timetable />} />
+        <Route path="/tasks" element={<TasksPage />} />
         <Route path="/course/:courseId" element={<CoursePage />} />
         <Route path="/" element={<Navigate to="/login" replace />} />
       </Routes>

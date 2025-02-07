@@ -8,11 +8,14 @@ import {
   BookMarked,
   Library,
   MonitorPlay,
-  FileText
+  FileText,
+  LogOut
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Dashboard: React.FC = () => {
+  const navigate = useNavigate();
+  
   const [notifications] = useState([
     { id: 1, text: 'Assignment due: Data Structures - Lab Report 3', deadline: '2 days left' },
     { id: 2, text: 'New Material: Database Management Systems', time: '1 hour ago' },
@@ -29,7 +32,7 @@ const Dashboard: React.FC = () => {
     },
     {
       id: 2,
-      code: 'SCS2203',
+      code: 'SCS2201',
       name: 'Database Management Systems',
       progress: 45,
       nextClass: 'Today 2:30 PM',
@@ -37,7 +40,7 @@ const Dashboard: React.FC = () => {
     },
     {
       id: 3,
-      code: 'SCS2204',
+      code: 'SCS2201',
       name: 'Functional Programming',
       progress: 78,
       nextClass: 'Wednesday 8:30 AM',
@@ -60,6 +63,10 @@ const Dashboard: React.FC = () => {
     }
   ];
 
+  const handleLogout = () => {
+    navigate('/login');
+  };
+
   return (
     <div className="min-h-screen bg-slate-50 p-6">
       <div className="max-w-7xl mx-auto space-y-6">
@@ -76,6 +83,13 @@ const Dashboard: React.FC = () => {
               </button>
               <button className="p-2 rounded-full bg-blue-100 text-blue-600">
                 <Calendar className="h-6 w-6" />
+              </button>
+              <button 
+                onClick={handleLogout}
+                className="flex items-center space-x-2 px-4 py-2 rounded-lg bg-red-100 text-red-600 hover:bg-red-200"
+              >
+                <LogOut className="h-5 w-5" />
+                <span>Logout</span>
               </button>
             </div>
           </div>
@@ -118,7 +132,11 @@ const Dashboard: React.FC = () => {
             </h2>
             <div className="space-y-4">
               {courses.map(course => (
-                <div key={course.id} className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow">
+                <div 
+                  key={course.id} 
+                  className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow cursor-pointer"
+                  onClick={() => navigate(`/course/${course.code}`)}
+                >
                   <div className="flex justify-between items-start mb-3">
                     <div>
                       <h3 className="font-semibold text-lg">{course.name}</h3>
