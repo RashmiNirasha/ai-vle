@@ -6,6 +6,11 @@ import SignupPage from './pages/SignupPage';
 import CoursePage from './pages/CoursePage';
 import Timetable from 'pages/Timetable';
 import TasksPage from 'pages/TasksPage';
+import Clarity from '@microsoft/clarity';
+
+const projectId = "qfsogio69t"
+
+Clarity.init(projectId);
 
 const App: React.FC = () => {
   return (
