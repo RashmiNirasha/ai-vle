@@ -6,6 +6,8 @@ import SignupPage from './pages/SignupPage';
 import CoursePage from './pages/CoursePage';
 import Timetable from 'pages/Timetable';
 import TasksPage from 'pages/TasksPage';
+import Course01 from 'pages/Course01';
+import Quiz from 'pages/quiz';
 import Clarity from '@microsoft/clarity';
 
 const projectId = "qfsogio69t"
@@ -22,6 +24,8 @@ const App: React.FC = () => {
         <Route path="/timetable" element={<Timetable />} />
         <Route path="/tasks" element={<TasksPage />} />
         <Route path="/course/:courseId" element={<CoursePage />} />
+        <Route path="/course01" element={<Course01 />} />
+        <Route path="/quiz" element={<Quiz />} />
         <Route path="/" element={<Navigate to="/login" replace />} />
       </Routes>
     </Router>

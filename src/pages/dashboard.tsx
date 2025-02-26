@@ -8,10 +8,11 @@ import {
   BookMarked,
   Library,
   MonitorPlay,
-  FileText,
-  LogOut
+  FileText
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
+import Navbar from '../pages/navBar';
+import Footer from './footer';
 
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
@@ -63,149 +64,125 @@ const Dashboard: React.FC = () => {
     }
   ];
 
-  const handleLogout = () => {
-    navigate('/login');
-  };
-
   return (
-    <div className="min-h-screen bg-slate-50 p-6">
-      <div className="max-w-7xl mx-auto space-y-6">
-        {/* Header */}
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <div className="flex justify-between items-center">
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">Welcome to UCSC Learning Space</h1>
-              <p className="text-slate-600">University of Colombo School of Computing</p>
-            </div>
-            <div className="flex items-center space-x-4">
-              <button className="p-2 rounded-full hover:bg-slate-100">
-                <Bell className="h-6 w-6 text-slate-600" />
-              </button>
-              <button className="p-2 rounded-full bg-blue-100 text-blue-600">
-                <Calendar className="h-6 w-6" />
-              </button>
-              <button 
-                onClick={handleLogout}
-                className="flex items-center space-x-2 px-4 py-2 rounded-lg bg-red-100 text-red-600 hover:bg-red-200"
-              >
-                <LogOut className="h-5 w-5" />
-                <span>Logout</span>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <Link to="/timetable" className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-            <div className="flex items-center space-x-3">
-              <Clock className="h-6 w-6 text-blue-600" />
-              <span className="font-medium">Today's Schedule</span>
-            </div>
-          </Link>
-          <Link to="/tasks" className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-            <div className="flex items-center space-x-3">
-              <CheckCircle className="h-6 w-6 text-green-600" />
-              <span className="font-medium">Pending Tasks</span>
-            </div>
-          </Link>
-          <Link to="/library" className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-            <div className="flex items-center space-x-3">
-              <Library className="h-6 w-6 text-purple-600" />
-              <span className="font-medium">UCSC Library</span>
-            </div>
-          </Link>
-          <Link to="/resources" className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-            <div className="flex items-center space-x-3">
-              <BookMarked className="h-6 w-6 text-orange-600" />
-              <span className="font-medium">Study Resources</span>
-            </div>
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* My Courses */}
-          <div className="lg:col-span-2 space-y-4">
-            <h2 className="text-xl font-semibold flex items-center">
-              <BookOpen className="h-5 w-5 mr-2" />
-              My Courses
-            </h2>
-            <div className="space-y-4">
-              {courses.map(course => (
-                <div 
-                  key={course.id} 
-                  className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow cursor-pointer"
-                  onClick={() => navigate(`/course/${course.code}`)}
-                >
-                  <div className="flex justify-between items-start mb-3">
-                    <div>
-                      <h3 className="font-semibold text-lg">{course.name}</h3>
-                      <p className="text-sm text-slate-600">{course.code}</p>
-                    </div>
-                    <span className="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">
-                      {course.nextClass}
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-4">
-                      <MonitorPlay className="h-5 w-5 text-green-600" />
-                      <FileText className="h-5 w-5 text-orange-600" />
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-48 h-2 bg-slate-200 rounded-full">
-                        <div 
-                          className="h-full bg-blue-600 rounded-full"
-                          style={{ width: `${course.progress}%` }}
-                        />
-                      </div>
-                      <span className="text-sm text-slate-600">{course.progress}%</span>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+    <>
+          <Navbar notifications={notifications.length} />
+      
+      <div className="min-h-screen bg-slate-50 p-6">
+        <div className="max-w-7xl mx-auto space-y-6">
+         
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <Link to="/timetable" className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+              <div className="flex items-center space-x-3">
+                <Clock className="h-6 w-6 text-blue-600" />
+                <span className="font-medium">Today's Schedule</span>
+              </div>
+            </Link>
+            <Link to="/tasks" className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+              <div className="flex items-center space-x-3">
+                <CheckCircle className="h-6 w-6 text-green-600" />
+                <span className="font-medium">Pending Tasks</span>
+              </div>
+            </Link>
+            <Link to="/library" className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+              <div className="flex items-center space-x-3">
+                <Library className="h-6 w-6 text-purple-600" />
+                <span className="font-medium">UCSC Library</span>
+              </div>
+            </Link>
+            <Link to="/resources" className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+              <div className="flex items-center space-x-3">
+                <BookMarked className="h-6 w-6 text-orange-600" />
+                <span className="font-medium">Study Resources</span>
+              </div>
+            </Link>
           </div>
 
-          {/* Sidebar */}
-          <div className="space-y-6">
-            {/* Notifications */}
-            <div className="bg-white rounded-lg shadow-md p-4">
-              <h2 className="text-xl font-semibold mb-4 flex items-center">
-                <Bell className="h-5 w-5 mr-2" />
-                Notifications
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* My Courses */}
+            <div className="lg:col-span-2 space-y-4">
+              <h2 className="text-xl font-semibold flex items-center">
+                <BookOpen className="h-5 w-5 mr-2" />
+                My Courses
               </h2>
-              <div className="space-y-3">
-                {notifications.map(notification => (
-                  <div key={notification.id} className="p-3 bg-blue-50 rounded-lg">
-                    <p className="text-sm text-slate-800">{notification.text}</p>
-                    <p className="text-xs text-blue-600 mt-1">
-                      {notification.deadline || notification.time}
-                    </p>
+              <div className="space-y-4">
+                {courses.map(course => (
+                  <div 
+                    key={course.id} 
+                    className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow cursor-pointer"
+                    onClick={() => navigate(`/course/${course.code}`)}
+                  >
+                    <div className="flex justify-between items-start mb-3">
+                      <div>
+                        <h3 className="font-semibold text-lg">{course.name}</h3>
+                        <p className="text-sm text-slate-600">{course.code}</p>
+                      </div>
+                      <span className="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">
+                        {course.nextClass}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-4">
+                        <MonitorPlay className="h-5 w-5 text-green-600" />
+                        <FileText className="h-5 w-5 text-orange-600" />
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <div className="w-48 h-2 bg-slate-200 rounded-full">
+                          <div 
+                            className="h-full bg-blue-600 rounded-full"
+                            style={{ width: `${course.progress}%` }}
+                          />
+                        </div>
+                        <span className="text-sm text-slate-600">{course.progress}%</span>
+                      </div>
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Upcoming Deadlines */}
-            <div className="bg-white rounded-lg shadow-md p-4">
-              <h2 className="text-xl font-semibold mb-4 flex items-center">
-                <Calendar className="h-5 w-5 mr-2" />
-                Upcoming Deadlines
-              </h2>
-              <div className="space-y-3">
-                {upcomingDeadlines.map(deadline => (
-                  <div key={deadline.id} className="p-3 border border-slate-200 rounded-lg">
-                    <p className="font-medium">{deadline.task}</p>
-                    <p className="text-sm text-slate-600">{deadline.course}</p>
-                    <p className="text-sm text-red-600 mt-1">Due: {deadline.deadline}</p>
-                  </div>
-                ))}
+            {/* Sidebar */}
+            <div className="space-y-6">
+              {/* Notifications */}
+              <div className="bg-white rounded-lg shadow-md p-4">
+                <h2 className="text-xl font-semibold mb-4 flex items-center">
+                  <Bell className="h-5 w-5 mr-2" />
+                  Notifications
+                </h2>
+                <div className="space-y-3">
+                  {notifications.map(notification => (
+                    <div key={notification.id} className="p-3 bg-blue-50 rounded-lg">
+                      <p className="text-sm text-slate-800">{notification.text}</p>
+                      <p className="text-xs text-blue-600 mt-1">
+                        {notification.deadline || notification.time}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Upcoming Deadlines */}
+              <div className="bg-white rounded-lg shadow-md p-4">
+                <h2 className="text-xl font-semibold mb-4 flex items-center">
+                  <Calendar className="h-5 w-5 mr-2" />
+                  Upcoming Deadlines
+                </h2>
+                <div className="space-y-3">
+                  {upcomingDeadlines.map(deadline => (
+                    <div key={deadline.id} className="p-3 border border-slate-200 rounded-lg">
+                      <p className="font-medium">{deadline.task}</p>
+                      <p className="text-sm text-slate-600">{deadline.course}</p>
+                      <p className="text-sm text-red-600 mt-1">Due: {deadline.deadline}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 };
 
