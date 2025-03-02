@@ -4,12 +4,14 @@ import {
   Home,
   Clock,
   BookOpen,
+  Calendar,
   CheckCircle,
+  Bell,
   LogOut,
-  Settings
+  User
 } from 'lucide-react';
 
-const NavBar: React.FC<{ notifications: number }> = ({ notifications }) => {
+const Navbar: React.FC<{ notifications: number }> = ({ notifications }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -17,34 +19,37 @@ const NavBar: React.FC<{ notifications: number }> = ({ notifications }) => {
   };
 
   return (
-    <nav className="bg-sky-50 shadow-lg sticky top-0 z-50">
+    <nav className="bg-white shadow-md sticky top-0 z-50 border-b-2 border-sky-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          <div className="flex items-center space-x-8">
-            <h1 className="text-2xl font-bold text-sky-700">EduFocus</h1>
-            <div className="hidden md:flex space-x-6">
+          <div className="flex items-center space-x-6"> {/* Reduced space between items */}
+            <h1 className="text-xl font-bold text-sky-700">EduFocus</h1>
+            <div className="hidden md:flex space-x-3"> {/* Reduced space between tabs */}
               {[
-                { to: '/home', label: 'Dashboard', icon: <Home className="h-5 w-5" /> },
-                { to: '/timetable', label: 'Timetable', icon: <Clock className="h-5 w-5" /> },
-                { to: '/course/1', label: 'Courses', icon: <BookOpen className="h-5 w-5" /> }, // Example courseId
-                { to: '/tasks', label: 'Tasks', icon: <CheckCircle className="h-5 w-5" />, notifications },
-                { to: '/settings', label: 'Settings', icon: <Settings className="h-5 w-5" /> }
+                { to: '/home', label: 'Home', icon: <Home className="h-6 w-6" /> },
+                { to: '/learning', label: 'My Learning', icon: <Clock className="h-6 w-6" /> },
+                { to: '/courses', label: 'Courses', icon: <BookOpen className="h-6 w-6" /> },
+                { to: '/timetable', label: 'Calendar', icon: <Calendar className="h-6 w-6" /> },
+                { to: '/tasks', label: 'Assignments', icon: <CheckCircle className="h-6 w-6" /> },
+                { to: '/announcement', label: 'Announcements', icon: <Bell className="h-6 w-6" />, notifications }
               ].map(({ to, label, icon, notifications }) => (
                 <NavLink
                   key={label}
                   to={to}
                   className={({ isActive }) =>
-                    `relative flex items-center space-x-2 text-lg font-medium px-3 py-2 rounded-lg transition-all ${
+                    `relative flex items-center space-x-2 text-sm font-medium px-3 py-2 rounded-lg transition-all ${
                       isActive
-                        ? 'bg-sky-100 text-sky-700 shadow-md'
-                        : 'text-slate-600 hover:bg-sky-50 hover:text-sky-600'
+                        ? 'bg-sky-600 text-white shadow-md'
+                        : 'text-slate-700 hover:bg-sky-100 hover:text-sky-600'
                     }`
                   }
                 >
-                  {icon}
-                  <span>{label}</span>
+                  <div className="flex items-center">
+                    {icon}
+                    <span className="ml-2">{label}</span>
+                  </div>
                   {notifications && notifications > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full px-2 text-xs">
+                    <span className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full h-5 w-5 flex items-center justify-center text-xs font-bold">
                       {notifications}
                     </span>
                   )}
@@ -53,19 +58,28 @@ const NavBar: React.FC<{ notifications: number }> = ({ notifications }) => {
             </div>
           </div>
 
-          <div className="flex items-center">
-            <button
-              onClick={handleLogout}
-              className="flex items-center space-x-2 px-4 py-2 rounded-lg bg-red-100 text-red-600 hover:bg-red-200 transition-all"
+          {/* Profile Section */}
+          <div className="flex items-center space-x-4">
+            <NavLink
+              to="/profile"
+              className="flex items-center space-x-2 text-sm font-medium px-3 py-2 rounded-lg hover:bg-sky-100 hover:text-sky-600 transition-all"
             >
-              <LogOut className="h-5 w-5" />
-              <span>Logout</span>
-            </button>
+              <User className="h-6 w-6 text-sky-600" />
+              <span className="ml-2">Profile</span>
+            </NavLink>
           </div>
+
+          <button
+            onClick={handleLogout}
+            className="flex items-center space-x-2 px-4 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600 transition-all text-sm"
+          >
+            <LogOut className="h-6 w-6" />
+            <span>Logout</span>
+          </button>
         </div>
       </div>
     </nav>
   );
 };
 
-export default NavBar;
+export default Navbar;
