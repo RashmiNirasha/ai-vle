@@ -86,7 +86,7 @@ const Course: React.FC = () => {
               Programming languages are chosen based on the type of project, performance requirements, and developer preference.
               <div className="w-full rounded-lg border p-4 overflow-auto">
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                    <img src="./Images/1.png" alt="Flowchart Example" className="col-span-2 md:col-span-3 rounded-lg w-full h-auto" />
+                    <img src="https://github.com/RashmiNirasha/ai-vle/blob/36aa5d9d73fa9d04dd2c1ab428edef01827243e8/src/Images/1.png" alt="Flowchart Example" className="col-span-2 md:col-span-3 rounded-lg w-full h-auto" />
                   </div>
                 </div>
 
@@ -117,7 +117,7 @@ const Course: React.FC = () => {
                 </p>
                 <div className="w-full rounded-lg border p-4 overflow-auto">
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                    <img src="/Images/2.png" alt="Flowchart Example" className="col-span-2 md:col-span-3 rounded-lg w-full h-auto" />
+                    <img src="https://github.com/RashmiNirasha/ai-vle/blob/36aa5d9d73fa9d04dd2c1ab428edef01827243e8/src/Images/2.png" alt="Flowchart Example" className="col-span-2 md:col-span-3 rounded-lg w-full h-auto" />
                   </div>
                 </div>
               </div>
