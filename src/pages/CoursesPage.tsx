@@ -15,9 +15,9 @@ const Courses = () => {
   
   const availableCourses = [
     { id: 'SCS2201', title: 'Data Structures and Algorithms', semester: 'Semester I', color: 'bg-cyan-100', border: 'border-cyan-300' },
-    { id: 'IS2102', title: 'Database Management Systems', semester: 'Semester I', color: 'bg-purple-100', border: 'border-purple-300' },
-    { id: 'IS2103', title: 'Functional Programming', semester: 'Semester I', color: 'bg-pink-100', border: 'border-pink-300' },
-    { id: 'IS2109', title: 'Cognitive Robotics', semester: 'Semester I', color: 'bg-blue-100', border: 'border-blue-300' }
+    { id: 'SCS2201', title: 'Database Management Systems', semester: 'Semester I', color: 'bg-purple-100', border: 'border-purple-300' },
+    { id: 'SCS2201', title: 'Functional Programming', semester: 'Semester I', color: 'bg-pink-100', border: 'border-pink-300' },
+    { id: 'SCS2201', title: 'Cognitive Robotics', semester: 'Semester I', color: 'bg-blue-100', border: 'border-blue-300' }
   ];
 
 
