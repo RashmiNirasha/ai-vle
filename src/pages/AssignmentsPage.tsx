@@ -1,9 +1,6 @@
-"use client"
-
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Calendar } from "lucide-react";
-import Navbar from "../pages/navBar";
 
 const TasksPage: React.FC = () => {
   const [tasks, setTasks] = useState([
@@ -41,8 +38,6 @@ const TasksPage: React.FC = () => {
     },
   ]);
 
-  const [notifications] = useState(2);
-
   const handleCheckboxChange = (taskId: number) => {
     setTasks((prevTasks) =>
       prevTasks.map((task) =>
@@ -53,8 +48,6 @@ const TasksPage: React.FC = () => {
 
   return (
     <>
-      <Navbar notifications={notifications} />
-
       <div className="min-h-screen bg-slate-50 p-6">
         <div className="max-w-7xl mx-auto space-y-6">
           {/* Back to Dashboard Link */}

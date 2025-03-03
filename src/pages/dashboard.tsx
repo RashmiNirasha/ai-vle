@@ -11,7 +11,6 @@ import {
   FileText
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
-import Navbar from '../pages/navBar';
 import Footer from './footer';
 
 const Dashboard: React.FC = () => {
@@ -65,9 +64,7 @@ const Dashboard: React.FC = () => {
   ];
 
   return (
-    <>
-          <Navbar notifications={notifications.length} />
-      
+    <>      
       <div className="min-h-screen bg-slate-50 p-6">
         <div className="max-w-7xl mx-auto space-y-6">
          

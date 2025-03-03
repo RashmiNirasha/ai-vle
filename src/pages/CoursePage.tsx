@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { } from 'react';
 import { useParams, Link, Route, Routes } from "react-router-dom";
 import { ArrowLeft, CheckCircle, Clock, Download, PieChart } from "lucide-react";
 import Course from "./Course01";
-import Navbar from "../pages/navBar";
 
 const courseData = {
   SCS2201: {
@@ -80,7 +79,6 @@ const courseData = {
 const CoursePage: React.FC = () => {
   const { courseId } = useParams<{ courseId: string }>();
   const course = courseData[courseId as keyof typeof courseData];
-  const [notifications] = useState(2); // Set notifications state to 2
   
   if (!course) {
     return <div>Course not found</div>;
@@ -88,9 +86,6 @@ const CoursePage: React.FC = () => {
 
   return (
     <>
-      {/* Navbar Component */}
-      <Navbar notifications={notifications} />
-
       <div className="min-h-screen bg-slate-50 p-6">
         <div className="max-w-7xl mx-auto space-y-6">
           {/* Header */}

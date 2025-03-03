@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { 
   Bell
 } from 'lucide-react';
-import Navbar from '../pages/navBar';
 
 const Announcements: React.FC = () => {
   const [notifications] = useState([
@@ -11,9 +10,7 @@ const Announcements: React.FC = () => {
   ]);
 
   return (
-    <>
-      <Navbar notifications={notifications.length} />
-      
+    <>      
       <div className="min-h-screen bg-slate-50 p-6">
         <div className="max-w-7xl mx-auto space-y-6">
           <div className="grid grid-cols-1 lg:grid-cols-1 gap-6">

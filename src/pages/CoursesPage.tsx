@@ -1,17 +1,8 @@
-import React, { useState } from 'react';
-import { 
-  BookOpen, 
-  Calendar, 
-  Clock, 
-  Bell, 
-  CheckCircle
-} from 'lucide-react';
+import { BookOpen,  Calendar,   Clock,   Bell, CheckCircle} from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
-import Navbar from '../pages/navBar';
 
 const Courses = () => {
   const navigate = useNavigate();
-  const [notifications] = useState(2);
   
   const availableCourses = [
     { id: 'SCS2201', title: 'Data Structures and Algorithms', semester: 'Semester I', color: 'bg-cyan-100', border: 'border-cyan-300' },
@@ -23,7 +14,6 @@ const Courses = () => {
 
   return (
     <>
-      <Navbar notifications={notifications} />
       <div className="min-h-screen bg-slate-50 p-6">
         <div className="max-w-7xl mx-auto space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">

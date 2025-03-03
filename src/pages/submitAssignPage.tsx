@@ -1,10 +1,7 @@
-"use client"
-
 import type React from "react";
 import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Upload, X, FileText, CheckCircle } from "lucide-react";
-import Navbar from "../pages/navBar";
 
 const SubmitPage: React.FC = () => {
   const [notifications, setNotifications] = useState(2);
@@ -43,8 +40,6 @@ const SubmitPage: React.FC = () => {
 
   return (
     <>
-      <Navbar notifications={notifications} />
-
       <div className="min-h-screen bg-gradient-to-br from-blue-100 to-purple-100 p-4" style={{ fontFamily: 'Arial', fontSize: '10px' }}>
         <div className="max-w-2xl mx-auto space-y-4">
           <div className="bg-white rounded-lg shadow-md p-4 mb-3">

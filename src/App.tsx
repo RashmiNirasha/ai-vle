@@ -1,27 +1,34 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import LoginPage from './pages/LoginPage';
-import Dashboard from './pages/dashboard';
-import SignupPage from './pages/SignupPage';
-import CoursePage from './pages/CoursePage';
-import Timetable from 'pages/TimetablePage';
-import TasksPage from 'pages/AssignmentsPage';
-import Course01 from 'pages/Course01';
-import Quiz from 'pages/quiz';
-import Courses from 'pages/CoursesPage';
-import SubmitPage from 'pages/submitAssignPage';
-import LearningPage from 'pages/LearningPage';
-import Announcements from 'pages/AnnouncementsPage';
-import Profile from 'pages/ProfilePage';
-import Clarity from '@microsoft/clarity';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { StudentProvider } from "./context/StudentContext";
+import Navbar from "./pages/navBar";
 
-const projectId = "qfsogio69t"
+import LoginPage from "./pages/LoginPage";
+import Dashboard from "./pages/dashboard";
+import SignupPage from "./pages/SignupPage";
+import CoursePage from "./pages/CoursePage";
+import Timetable from "./pages/TimetablePage";
+import TasksPage from "./pages/AssignmentsPage";
+import Course01 from "./pages/Course01";
+import Quiz from "./pages/quiz";
+import Courses from "./pages/CoursesPage";
+import SubmitPage from "./pages/submitAssignPage";
+import LearningPage from "./pages/LearningPage";
+import Announcements from "./pages/AnnouncementsPage";
+import Profile from "./pages/ProfilePage";
+import Clarity from "@microsoft/clarity";
 
+const projectId = "qfsogio69t";
 Clarity.init(projectId);
 
-const App: React.FC = () => {
+const LayoutWithNavbar: React.FC = () => {
+  const location = useLocation();
+  const hiddenNavbarRoutes= ["/login", "/signup"] as string[];
+  const isHiddenRoute = hiddenNavbarRoutes.indexOf(location.pathname) !== -1;
+
   return (
-    <Router>
+    <>
+      {!isHiddenRoute && <Navbar notifications={2} />}
       <Routes>
         <Route path="/home" element={<Dashboard />} />
         <Route path="/login" element={<LoginPage />} />
@@ -38,7 +45,17 @@ const App: React.FC = () => {
         <Route path="/profile" element={<Profile />} />
         <Route path="/" element={<Navigate to="/login" replace />} />
       </Routes>
-    </Router>
+    </>
+  );
+};
+
+const App: React.FC = () => {
+  return (
+    <StudentProvider> {/* ✅ Wrap entire app with StudentProvider */}
+      <Router>
+        <LayoutWithNavbar />
+      </Router>
+    </StudentProvider>
   );
 };
 

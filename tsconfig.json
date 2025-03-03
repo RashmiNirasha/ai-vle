@@ -4,11 +4,12 @@
       "jsx": "react-jsx",
       "baseUrl": "./src",
       "paths": {
-        "*": ["*"]
+        "*": ["*"],
+        "@/*": ["./*"]
       },
       "allowSyntheticDefaultImports": true,
       "types": ["jest", "@testing-library/jest-dom"],
-      "lib": ["es2015", "dom"],  // Add 'dom' to include DOM types
+      "lib": ["es2016", "dom"],  // Add 'dom' to include DOM types
       "target": "es5"
     }
   }

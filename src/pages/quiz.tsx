@@ -1,7 +1,4 @@
-"use client"
-
 import type React from "react"
-
 import { useState } from "react"
 import { ArrowLeft, X } from "lucide-react"
 import { Link } from "react-router-dom"

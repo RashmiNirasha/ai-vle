@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, CheckCircle } from "lucide-react";
-import Navbar from "../pages/navBar";
 
 const LearningPage: React.FC = () => {
   const [tasks, setTasks] = useState([
@@ -15,8 +14,6 @@ const LearningPage: React.FC = () => {
     { id: 2, title: "Midterm Exam", dueDate: "2024-04-15" },
   ]);
 
-  const [notifications] = useState(2);
-
   const handleCheckboxChange = (taskId: number) => {
     setTasks((prevTasks) =>
       prevTasks.map((task) =>
@@ -27,8 +24,6 @@ const LearningPage: React.FC = () => {
 
   return (
     <>
-      <Navbar notifications={notifications} />
-
       <div className="min-h-screen bg-slate-50 p-6">
         <div className="max-w-7xl mx-auto space-y-6">
           {/* Back to Dashboard Link */}

@@ -1,15 +1,11 @@
 import React, { useState } from 'react';
 import { BookOpen, Code2, Brain, ArrowRight, CheckCircle, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import Navbar from '../pages/navBar';
 
 const Course: React.FC = () => {
-  const [notifications] = useState(2); // Set notifications state to 2
 
   return (
-    <>
-      <Navbar notifications={notifications} />
-      
+    <>      
       <div className="min-h-screen bg-slate-50 p-4 md:p-8">
         <div className="max-w-4xl mx-auto space-y-8">
           {/* Header */}
