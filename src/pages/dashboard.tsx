@@ -25,7 +25,7 @@ const Dashboard: React.FC = () => {
     {
       id: 1,
       code: 'SCS2201',
-      name: 'Data Structures and Algorithms',
+      name: 'Philosophy of Science',
       progress: 65,
       nextClass: 'Tomorrow 10:30 AM',
       tasks: 2,

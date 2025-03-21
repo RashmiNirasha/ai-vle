@@ -11,7 +11,6 @@ const Courses = () => {
     { id: 'SCS2201', title: 'Cognitive Robotics', semester: 'Semester I', color: 'bg-blue-100', border: 'border-blue-300' }
   ];
 
-
   return (
     <>
       <div className="min-h-screen bg-slate-50 p-6">

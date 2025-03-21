@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import { 
-  Bell
-} from 'lucide-react';
+import { Bell } from 'lucide-react';
 
 const Announcements: React.FC = () => {
   const [notifications] = useState([

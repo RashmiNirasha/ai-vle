@@ -16,6 +16,10 @@ import SubmitPage from "./pages/submitAssignPage";
 import LearningPage from "./pages/LearningPage";
 import Announcements from "./pages/AnnouncementsPage";
 import Profile from "./pages/ProfilePage";
+import Completed from "pages/completed";
+import Grades from "pages/GradesPage";
+import Certificate from "pages/CertificatePage";
+
 import Clarity from "@microsoft/clarity";
 
 const projectId = "qfsogio69t";
@@ -43,6 +47,10 @@ const LayoutWithNavbar: React.FC = () => {
         <Route path="/learning" element={<LearningPage />} />
         <Route path="/announcement" element={<Announcements />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/completed" element={<Completed />} />
+        <Route path="/grades" element={<Grades />} />
+        <Route path="/certificate" element={<Certificate />} />
+
         <Route path="/" element={<Navigate to="/login" replace />} />
       </Routes>
     </>

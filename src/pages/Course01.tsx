@@ -1,213 +1,624 @@
-import React, { useState } from 'react';
-import { BookOpen, Code2, Brain, ArrowRight, CheckCircle, ArrowLeft } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import type React from "react"
+import { useState, useRef } from "react"
+import {
+  BookOpen,
+  Brain,
+  ArrowRight,
+  CheckCircle,
+  ArrowLeft,
+  Radio,
+  ZoomIn,
+  ZoomOut,
+  Sun,
+  Moon,
+  Volume2,
+} from "lucide-react"
+import { Link } from "react-router-dom"
 
 const Course: React.FC = () => {
+  const [textSize, setTextSize] = useState("medium")
+  const [isDarkMode, setIsDarkMode] = useState(false)
+  const [zoomLevel, setZoomLevel] = useState(100)
+  const [audioPlaying, setAudioPlaying] = useState(false)
+  const [expandedSection, setExpandedSection] = useState<number | null>(null)
+  const audioRef = useRef<HTMLAudioElement | null>(null)
+
+  const handleZoom = (change: number) => {
+    setZoomLevel((prev) => Math.min(150, Math.max(75, prev + change)))
+  }
+
+  const toggleAudio = () => {
+    if (audioRef.current) {
+      if (audioPlaying) {
+        audioRef.current.pause()
+      } else {
+        audioRef.current.play()
+      }
+      setAudioPlaying(!audioPlaying)
+    }
+  }
+
+  const toggleSection = (index: number) => {
+    setExpandedSection(expandedSection === index ? null : index)
+  }
+
+  const getFontSize = () => {
+    switch (textSize) {
+      case "small":
+        return "0.875rem"
+      case "medium":
+        return "1rem"
+      case "large":
+        return "1.125rem"
+      case "x-large":
+        return "1.25rem"
+      default:
+        return "1rem"
+    }
+  }
+
+  const getHeadingSize = () => {
+    switch (textSize) {
+      case "small":
+        return "1.5rem"
+      case "medium":
+        return "1.75rem"
+      case "large":
+        return "2rem"
+      case "x-large":
+        return "2.25rem"
+      default:
+        return "1.75rem"
+    }
+  }
+
+  const getSubheadingSize = () => {
+    switch (textSize) {
+      case "small":
+        return "1.25rem"
+      case "medium":
+        return "1.5rem"
+      case "large":
+        return "1.75rem"
+      case "x-large":
+        return "2rem"
+      default:
+        return "1.5rem"
+    }
+  }
+
+  // Main container styles
+  const containerStyle: React.CSSProperties = {
+    minHeight: "100vh",
+    padding: "1rem",
+    backgroundColor: isDarkMode ? "#121212" : "#f8fafc",
+    color: isDarkMode ? "#e5e7eb" : "#1f2937",
+    fontSize: getFontSize(),
+    transition: "background-color 0.3s, color 0.3s",
+    zoom: `${zoomLevel}%`,
+  }
+
+  // Layout styles
+  const layoutStyle: React.CSSProperties = {
+    maxWidth: "1280px",
+    margin: "0 auto",
+    display: "flex",
+    gap: "1.5rem",
+  }
+
+  const accessibilityPanelStyle: React.CSSProperties = {
+  width: "250px",
+  backgroundColor: isDarkMode ? "#1f2937" : "#ffffff",
+  padding: "1rem",
+  borderRadius: "0.5rem",
+  boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06)",
+  position: "sticky",
+  top: "1rem",
+  height: "fit-content",
+  display: "block",
+};
+
+
+  const accessibilityTitleStyle: React.CSSProperties = {
+    fontSize: "1.125rem",
+    fontWeight: 600,
+    marginBottom: "1rem",
+    color: isDarkMode ? "#e5e7eb" : "#1f2937",
+  }
+
+  const accessibilitySectionStyle: React.CSSProperties = {
+    marginBottom: "1.25rem",
+  }
+
+  const accessibilitySectionTitleStyle: React.CSSProperties = {
+    fontSize: "0.875rem",
+    fontWeight: 500,
+    marginBottom: "0.5rem",
+    color: isDarkMode ? "#d1d5db" : "#4b5563",
+  }
+
+  const buttonGroupStyle: React.CSSProperties = {
+    display: "flex",
+    flexDirection: "column",
+    gap: "0.5rem",
+  }
+
+  const buttonStyle = (isActive: boolean): React.CSSProperties => ({
+    padding: "0.5rem 0.75rem",
+    borderRadius: "0.375rem",
+    fontSize: "0.875rem",
+    fontWeight: 500,
+    backgroundColor: isActive ? (isDarkMode ? "#3b82f6" : "#3b82f6") : isDarkMode ? "#374151" : "#f3f4f6",
+    color: isActive ? "#ffffff" : isDarkMode ? "#d1d5db" : "#4b5563",
+    border: "none",
+    cursor: "pointer",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "0.5rem",
+    transition: "background-color 0.2s",
+  })
+
+  // Content area styles
+  const contentAreaStyle: React.CSSProperties = {
+    flex: 1,
+  }
+
+  const backLinkStyle: React.CSSProperties = {
+    display: "inline-flex",
+    alignItems: "center",
+    color: isDarkMode ? "#60a5fa" : "#2563eb",
+    textDecoration: "none",
+    marginBottom: "1rem",
+    fontWeight: 500,
+  }
+
+  const headerStyle: React.CSSProperties = {
+    background: isDarkMode
+      ? "linear-gradient(to right, #1e3a8a, #1e40af)"
+      : "linear-gradient(to right, #3b82f6, #2563eb)",
+    borderRadius: "0.75rem",
+    padding: "1.5rem",
+    color: "#ffffff",
+    marginBottom: "1.5rem",
+    boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+  }
+
+  const headerTitleStyle: React.CSSProperties = {
+    fontSize: getHeadingSize(),
+    fontWeight: 700,
+    marginBottom: "0.75rem",
+  }
+
+  const headerMetaStyle: React.CSSProperties = {
+    display: "flex",
+    alignItems: "center",
+    gap: "0.5rem",
+    marginBottom: "1rem",
+  }
+
+  const tagContainerStyle: React.CSSProperties = {
+    display: "flex",
+    flexWrap: "wrap",
+    gap: "0.75rem",
+  }
+
+  const tagStyle: React.CSSProperties = {
+    display: "flex",
+    alignItems: "center",
+    gap: "0.5rem",
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
+    padding: "0.375rem 0.75rem",
+    borderRadius: "9999px",
+    fontSize: "0.875rem",
+    fontWeight: 600,
+  }
+
+  // Content section styles
+  const sectionStyle: React.CSSProperties = {
+    backgroundColor: isDarkMode ? "#1f2937" : "#ffffff",
+    borderRadius: "0.75rem",
+    padding: "1.5rem",
+    marginBottom: "1.5rem",
+    boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06)",
+  }
+
+  const sectionTitleStyle: React.CSSProperties = {
+    fontSize: getSubheadingSize(),
+    fontWeight: 600,
+    marginBottom: "1rem",
+    color: isDarkMode ? "#e5e7eb" : "#1f2937",
+    display: "flex",
+    alignItems: "center",
+    gap: "0.5rem",
+  }
+
+  const paragraphStyle: React.CSSProperties = {
+    marginBottom: "1rem",
+    lineHeight: 1.6,
+    color: isDarkMode ? "#d1d5db" : "#4b5563",
+  }
+
+  const listStyle: React.CSSProperties = {
+    paddingLeft: "1.5rem",
+    marginBottom: "1rem",
+  }
+
+  const listItemStyle: React.CSSProperties = {
+    marginBottom: "0.5rem",
+    lineHeight: 1.6,
+    color: isDarkMode ? "#d1d5db" : "#4b5563",
+  }
+
+  const highlightStyle: React.CSSProperties = {
+    backgroundColor: isDarkMode ? "#374151" : "#f3f4f6",
+    padding: "1rem",
+    borderRadius: "0.5rem",
+    marginBottom: "1rem",
+    borderLeft: `4px solid ${isDarkMode ? "#60a5fa" : "#3b82f6"}`,
+  }
+
+  const calloutStyle: React.CSSProperties = {
+    background: isDarkMode
+      ? "linear-gradient(to right, #065f46, #047857)"
+      : "linear-gradient(to right, #10b981, #059669)",
+    borderRadius: "0.75rem",
+    padding: "1.5rem",
+    color: "#ffffff",
+    marginTop: "2rem",
+    boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+  }
+
+  const calloutTitleStyle: React.CSSProperties = {
+    fontSize: getSubheadingSize(),
+    fontWeight: 700,
+    marginBottom: "0.75rem",
+  }
+
+  const calloutButtonStyle: React.CSSProperties = {
+    display: "inline-flex",
+    alignItems: "center",
+    backgroundColor: "#ffffff",
+    color: isDarkMode ? "#047857" : "#059669",
+    padding: "0.625rem 1.25rem",
+    borderRadius: "0.5rem",
+    fontWeight: 600,
+    marginTop: "0.75rem",
+    textDecoration: "none",
+    border: "none",
+    cursor: "pointer",
+  }
+
+  const accordionButtonStyle: React.CSSProperties = {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%",
+    textAlign: "left",
+    padding: "0.75rem",
+    backgroundColor: isDarkMode ? "#374151" : "#f3f4f6",
+    borderRadius: "0.375rem",
+    marginBottom: expandedSection !== null ? "0.75rem" : "0",
+    border: "none",
+    cursor: "pointer",
+    color: isDarkMode ? "#e5e7eb" : "#1f2937",
+    fontWeight: 600,
+  }
+
+  const accordionContentStyle = (isExpanded: boolean): React.CSSProperties => ({
+    padding: isExpanded ? "0.75rem" : "0",
+    maxHeight: isExpanded ? "1000px" : "0",
+    overflow: "hidden",
+    transition: "all 0.3s ease",
+    opacity: isExpanded ? 1 : 0,
+    marginBottom: isExpanded ? "0.75rem" : "0",
+  })
+
+  const sections = [
+    {
+      title: "The Problem of Distinguishing Science from Pseudo-Science",
+      content:
+        "Popper's main question was: How can we tell if a theory is truly scientific or just pseudo-science? This was different from asking whether a theory is true or whether we accept it. Popper was concerned with the method used by theories. He wanted to distinguish between genuine scientific methods and methods that might look scientific but are actually flawed or non-scientific.",
+    },
+    {
+      title: "The Role of Empirical Methods",
+      content:
+        "Most people thought science could be distinguished from pseudo-science by its empirical methods (methods based on observation and experimentation). However, Popper felt that some theories, like astrology, were based on observation but still not scientific. So, he began questioning what made some methods 'scientific' and others not.",
+    },
+    {
+      title: "Examples from Popper's Time",
+      content:
+        "After World War I, Popper became interested in several theories, especially Einstein's theory of relativity, Marxism, Freud's psychoanalysis, and Alfred Adler's individual psychology. These theories were widely discussed, but Popper became doubtful about their scientific status. His question was: What makes Einstein's theory different from Marxism or psychoanalysis?",
+    },
+    {
+      title: "Why Marxism, Psychoanalysis, and Adler's Psychology Seem Like Pseudo-Science",
+      content:
+        "Popper noticed that the followers of Marx, Freud, and Adler seemed to always find evidence that confirmed their theories. For example, Marxists found evidence in the news to support their ideas about class struggles, and Freudians could always explain any behavior in Freudian terms. Popper thought this was a problem because it made the theories seem too flexible—they could explain anything and everything, so they were hard to disprove. This made them more like myths or pseudo-science than real science.",
+    },
+    {
+      title: "Contrast with Einstein's Theory",
+      content:
+        "In contrast, Einstein's theory of relativity made specific predictions that were risky. For example, Einstein predicted that light would bend around the sun, which could be tested during an eclipse. If this prediction had been wrong, it would have refuted his theory. Popper thought this kind of risky prediction was a key feature of scientific theories.",
+    },
+    {
+      title: "Popper's Conclusions",
+      content:
+        "Popper summarized his conclusions about what makes a theory scientific:\n\n• Scientific theories must be testable: A theory is scientific if it can be tested and potentially proven false (falsifiable). The more a theory forbids (i.e., predicts specific outcomes), the better.\n• Conformation isn't enough: It's easy to find confirming evidence for a theory if you look for it. What matters is whether the theory can withstand attempts to prove it wrong.\n• Falsifiability is key: Theories that cannot be proven false, no matter what happens, are not scientific. This is because the ability to be refuted by evidence is what makes a theory scientific.",
+    },
+    {
+      title: "Testability vs. Confirmation",
+      content:
+        "Popper emphasized that scientific theories should be subject to tests that could potentially show them to be false. He argued that any theory that can't be tested or refuted doesn't deserve to be called scientific. For instance, a theory that fits every situation (like psychoanalysis) doesn't really advance knowledge because it can't be disproven.",
+    },
+    {
+      title: "The Problem of Ad Hoc Adjustments",
+      content:
+        "Sometimes, people try to protect a theory from being falsified by adding extra assumptions or reinterpreting it when evidence contradicts it. Popper warned that this kind of 'adjustment' lowers the scientific value of a theory because it avoids genuine testing.",
+    },
+  ]
 
   return (
-    <>      
-      <div className="min-h-screen bg-slate-50 p-4 md:p-8">
-        <div className="max-w-4xl mx-auto space-y-8">
-          {/* Header */}
-          <div className="mb-8">
-            <Link to="/course/SCS2201" className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-4">
-              <ArrowLeft className="h-4 w-4 mr-1" />
-              Back to Course
-            </Link>
+    <div style={containerStyle}>
+      <div style={layoutStyle}>
+        {/* Accessibility Panel */}
+        <div style={accessibilityPanelStyle}>
+          <h3 style={accessibilityTitleStyle}>Accessibility Options</h3>
+
+          <div style={accessibilitySectionStyle}>
+            <h4 style={accessibilitySectionTitleStyle}>Text Size</h4>
+            <div style={buttonGroupStyle}>
+              <button onClick={() => setTextSize("small")} style={buttonStyle(textSize === "small")}>
+                Small
+              </button>
+              <button onClick={() => setTextSize("medium")} style={buttonStyle(textSize === "medium")}>
+                Medium
+              </button>
+              <button onClick={() => setTextSize("large")} style={buttonStyle(textSize === "large")}>
+                Large
+              </button>
+              <button onClick={() => setTextSize("x-large")} style={buttonStyle(textSize === "x-large")}>
+                Extra Large
+              </button>
+            </div>
           </div>
+
+          <div style={accessibilitySectionStyle}>
+            <h4 style={accessibilitySectionTitleStyle}>Display Mode</h4>
+            <div style={buttonGroupStyle}>
+              <button onClick={() => setIsDarkMode(false)} style={buttonStyle(!isDarkMode)}>
+                <Sun size={16} /> Light Mode
+              </button>
+              <button onClick={() => setIsDarkMode(true)} style={buttonStyle(isDarkMode)}>
+                <Moon size={16} /> Dark Mode
+              </button>
+            </div>
+          </div>
+
+          <div style={accessibilitySectionStyle}>
+            <h4 style={accessibilitySectionTitleStyle}>Zoom</h4>
+            <div style={{ display: "flex", gap: "0.5rem" }}>
+              <button onClick={() => handleZoom(-10)} style={{ ...buttonStyle(false), flex: 1 }}>
+                <ZoomOut size={16} />
+              </button>
+              <span
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  padding: "0.5rem",
+                  backgroundColor: isDarkMode ? "#374151" : "#f3f4f6",
+                  borderRadius: "0.375rem",
+                  fontWeight: 500,
+                  minWidth: "60px",
+                }}
+              >
+                {zoomLevel}%
+              </span>
+              <button onClick={() => handleZoom(10)} style={{ ...buttonStyle(false), flex: 1 }}>
+                <ZoomIn size={16} />
+              </button>
+            </div>
+          </div>
+
+          <div style={accessibilitySectionStyle}>
+            <h4 style={accessibilitySectionTitleStyle}>Audio</h4>
+            <button onClick={toggleAudio} style={buttonStyle(audioPlaying)}>
+              {audioPlaying ? <Volume2 size={16} /> : <Radio size={16} />}
+              {audioPlaying ? "Stop Audio" : "Listen to Content"}
+            </button>
+            <audio ref={audioRef} style={{ display: "none" }} controls>
+              <source src="#" type="audio/mpeg" />
+              Your browser does not support the audio element.
+            </audio>
+          </div>
+        </div>
+
+        {/* Main Content */}
+        <div style={contentAreaStyle}>
+          {/* Header */}
+          <Link to="/course/SCS2201" style={backLinkStyle}>
+            <ArrowLeft size={16} style={{ marginRight: "0.25rem" }} />
+            Back to Course
+          </Link>
 
           {/* Unit Header */}
-          <div className="bg-white rounded-xl p-6 shadow-sm border border-slate-100">
-            <h1 className="text-3xl md:text-4xl font-bold text-blue-600 mb-4">Unit 1: Introduction to Programming</h1>
-            <div className="flex items-center gap-2 text-slate-600 mb-4">
-              <BookOpen className="h-5 w-5" />
-              <span>Estimated time: 45 minutes</span>
+          <div style={headerStyle}>
+            <h1 style={headerTitleStyle}>Unit 1: Conjectures and Refutations</h1>
+            <div style={headerMetaStyle}>
+              <BookOpen size={18} />
+              <span>Estimated time: 30 minutes</span>
             </div>
-            <div className="flex flex-wrap gap-3">
-              <div className="flex items-center gap-2 bg-blue-50 text-blue-700 px-3 py-1.5 rounded-full text-sm">
-                <Brain className="h-4 w-4" />
-                <span>Beginner Friendly</span>
+            <div style={tagContainerStyle}>
+              <div style={tagStyle}>
+                <Brain size={16} /> Critical Thinking
               </div>
-              <div className="flex items-center gap-2 bg-green-50 text-green-700 px-3 py-1.5 rounded-full text-sm">
-                <CheckCircle className="h-4 w-4" />
-                <span>Interactive Learning</span>
+              <div style={tagStyle}>
+                <CheckCircle size={16} /> Interactive Content
               </div>
             </div>
           </div>
 
-          {/* Main Content */}
-          <div className="bg-white rounded-xl p-6 shadow-sm">
-            <h2 className="text-2xl font-semibold mb-4">What is Programming?</h2>
-            <p className="text-slate-700 leading-relaxed mb-6">
-              Programming is the process of designing, writing, testing, and maintaining a set of instructions (called
-              code) that a computer can execute. It enables us to create software applications, websites, games, and much
-              more.
-            </p>
-
-            <div className="space-y-4 mb-6">
-              <h3 className="text-lg font-medium">With programming, you can:</h3>
-              <ul className="space-y-3">
-                {[
-                  'Solve real-world problems through automation',
-                  'Create interactive user experiences in apps and websites',
-                  'Process large volumes of data efficiently',
-                  'Develop artificial intelligence and machine learning systems',
-                ].map((item, i) => (
-                  <li key={i} className="flex items-start gap-3 bg-slate-50 p-3 rounded-lg">
-                    <CheckCircle className="h-5 w-5 text-green-500 mt-0.5" />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Programming Languages Section */}
-            <div className="mb-8">
-              <h2 className="text-2xl font-semibold mb-4">Programming Languages</h2>
-              <p className="text-slate-700 mb-4">
-                Programming languages are tools that allow us to write code in a way that computers can interpret. Each
-                language has its own syntax, structure, and purpose. Here are some popular programming languages:
-                <br />
-                <br />
-                Python: Known for its simplicity, Python is widely used in data science, AI, and web development.
-                <br />
-                Java: Popular for its portability and often used in enterprise applications and Android app development.
-                <br />
-                C++: Ideal for system programming, game development, and high-performance applications.
-                <br />
-                JavaScript: Essential for creating interactive web applications and front-end development.
-                <br />
-                Ruby: Often used for web development, especially with the Ruby on Rails framework.
+          {/* Introduction */}
+          <div style={sectionStyle}>
+            <h2 style={sectionTitleStyle}>Introduction to Popper's Philosophy</h2>
+            <div style={highlightStyle}>
+              <p style={{ ...paragraphStyle, marginBottom: 0, fontWeight: 500 }}>
+                "The criterion of the scientific status of a theory is its falsifiability, or refutability, or
+                testability." - Karl Popper
               </p>
-              Programming languages are chosen based on the type of project, performance requirements, and developer preference.
-              <div className="w-full rounded-lg border p-4 overflow-auto">
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                    <img src="https://github.com/RashmiNirasha/ai-vle/blob/36aa5d9d73fa9d04dd2c1ab428edef01827243e8/src/Images/1.png" alt="Flowchart Example" className="col-span-2 md:col-span-3 rounded-lg w-full h-auto" />
-                  </div>
+            </div>
+            <p style={paragraphStyle}>
+              Karl Popper revolutionized our understanding of what makes a theory scientific. Instead of focusing on
+              what's true, he asked a more fundamental question: What distinguishes genuine science from pseudo-science?
+              His answer—falsifiability—has become a cornerstone of scientific philosophy.
+            </p>
+            <p style={paragraphStyle}>
+              This unit explores Popper's key ideas about scientific theories, why some theories qualify as scientific
+              while others don't, and how to distinguish between them.
+            </p>
+          </div>
+
+          {/* Main Content Sections */}
+          <div style={sectionStyle}>
+            <h2 style={sectionTitleStyle}>Key Concepts</h2>
+
+            {sections.map((section, index) => (
+              <div key={index} style={{ marginBottom: "1rem" }}>
+                <button
+                  onClick={() => toggleSection(index)}
+                  style={accordionButtonStyle}
+                  aria-expanded={expandedSection === index}
+                >
+                  {section.title}
+                  {expandedSection === index ? <span aria-hidden="true">−</span> : <span aria-hidden="true">+</span>}
+                </button>
+                <div style={accordionContentStyle(expandedSection === index)}>
+                  {section.content.split("\n\n").map((paragraph, pIndex) =>
+                    paragraph.startsWith("•") ? (
+                      <ul style={listStyle} key={pIndex}>
+                        {paragraph.split("\n").map((item, iIndex) => (
+                          <li style={listItemStyle} key={iIndex}>
+                            {item.substring(1).trim()}
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p style={paragraphStyle} key={pIndex}>
+                        {paragraph}
+                      </p>
+                    ),
+                  )}
                 </div>
+              </div>
+            ))}
+          </div>
 
-              {/* Algorithms and Flowcharts */}
-              <div className="mb-8">
-                <h2 className="text-2xl font-semibold mb-4">Algorithms and Flowcharts</h2>
-                <p className="text-slate-700 mb-4">
-                  Algorithms: Algorithms are step-by-step instructions designed to solve a problem or perform a specific task.
-                  They serve as the backbone of programming by providing a clear set of rules to follow. Think of them as a
-                  recipe for solving a problem. For instance, an algorithm for making a cup of tea could look like this:
-                  <br />
-                  1. Boil water.
-                  <br />
-                  2. Put a tea bag in a cup.
-                  <br />
-                  3. Pour hot water into the cup.
-                  <br />
-                  4. Add sugar or milk (optional).
-                  <br />
-                  5. Stir and serve.
-                  <br />
-                  Algorithms can be represented in different ways, such as plain text, pseudocode, or flowcharts. They are crucial
-                  for defining logical solutions to problems.
-                  <br />
-                  <br />
-                  Flowcharts: Flowcharts visually represent algorithms. They use shapes like rectangles (process), diamonds
-                  (decisions), and arrows (flow) to illustrate steps clearly. For example:
-                </p>
-                <div className="w-full rounded-lg border p-4 overflow-auto">
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                    <img src="https://github.com/RashmiNirasha/ai-vle/blob/36aa5d9d73fa9d04dd2c1ab428edef01827243e8/src/Images/2.png" alt="Flowchart Example" className="col-span-2 md:col-span-3 rounded-lg w-full h-auto" />
-                  </div>
-                </div>
+          {/* Visual Comparison */}
+          <div style={sectionStyle}>
+            <h2 style={sectionTitleStyle}>Science vs. Pseudo-Science: A Comparison</h2>
+
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+                gap: "1rem",
+                marginBottom: "1.5rem",
+              }}
+            >
+              <div
+                style={{
+                  padding: "1rem",
+                  borderRadius: "0.5rem",
+                  backgroundColor: isDarkMode ? "#374151" : "#f3f4f6",
+                  borderLeft: "4px solid #10b981",
+                }}
+              >
+                <h3
+                  style={{
+                    fontSize: "1.25rem",
+                    fontWeight: 600,
+                    marginBottom: "0.75rem",
+                    color: isDarkMode ? "#e5e7eb" : "#1f2937",
+                  }}
+                >
+                  Scientific Theories
+                </h3>
+                <ul style={listStyle}>
+                  <li style={listItemStyle}>Make specific, testable predictions</li>
+                  <li style={listItemStyle}>Can be proven false by observations</li>
+                  <li style={listItemStyle}>Take risks by making bold claims</li>
+                  <li style={listItemStyle}>Example: Einstein's theory of relativity</li>
+                </ul>
               </div>
 
-              {/* Compiling Section */}
-              <div className="mb-8">
-                <h2 className="text-2xl font-semibold mb-4">Compiling: From Code to Machine Instructions</h2>
-                <p className="text-slate-700 mb-4">
-                  Compiling is the process of converting source code, written by developers in a high-level programming
-                  language like Python or C++, into machine code (also known as binary code). Machine code is the language
-                  that a computer's processor can understand and execute directly.
-                  <br />
-                  The compilation process involves several steps:
-                  <br />
-                  1. Lexical Analysis: Breaking the code into smaller units called tokens (e.g., keywords, variables, symbols).
-                  <br />
-                  2. Syntax Analysis: Checking the structure of the code to ensure it adheres to the language's grammar.
-                  <br />
-                  3. Code Optimization: Improving the efficiency of the machine code for better performance.
-                  <br />
-                  4. Code Generation: Producing the final machine code, which the computer can execute.
-                  <br />
-                  Compilers play a critical role in ensuring that the code is error-free and optimized before running on the machine.
-                </p>
-              </div>
-
-              {/* Understanding Binary Code */}
-              <div className="mb-8">
-                <h2 className="text-2xl font-semibold mb-4">Understanding Binary Code</h2>
-                <p className="text-slate-700 mb-4">
-                  Computers operate on binary code, which is a sequence of 0s and 1s that represent instructions and data.
-                  This is because modern computers use digital circuits that can be in one of two states: on (1) or off (0).
-                  Everything from images, videos, and text to software applications is ultimately represented in binary format.
-                  <br />
-                  For example:
-                  <br />
-                  The binary number 01000001 represents the letter A in the ASCII system.
-                  <br />
-                  The number 0011 1110 might represent a specific machine instruction.
-                  <br />
-                  Binary code forms the foundation of all computing, making it essential for programs to be translated (compiled)
-                  into this format for execution.
-                </p>
-              </div>
-
-              {/* Summary */}
-              <div className="mb-8">
-                <h2 className="text-2xl font-semibold mb-4">Summary</h2>
-                <p className="text-slate-700 mb-4">
-                  Programming involves understanding concepts like programming languages, algorithms, and flowcharts. By mastering
-                  these basics, you can build a solid foundation for solving complex problems through logical thinking and
-                  structured approaches.
-                  <br />
-                  Algorithms and flowcharts are tools to streamline problem-solving and ensure consistency in your solutions.
-                </p>
+              <div
+                style={{
+                  padding: "1rem",
+                  borderRadius: "0.5rem",
+                  backgroundColor: isDarkMode ? "#374151" : "#f3f4f6",
+                  borderLeft: "4px solid #ef4444",
+                }}
+              >
+                <h3
+                  style={{
+                    fontSize: "1.25rem",
+                    fontWeight: 600,
+                    marginBottom: "0.75rem",
+                    color: isDarkMode ? "#e5e7eb" : "#1f2937",
+                  }}
+                >
+                  Pseudo-Scientific Theories
+                </h3>
+                <ul style={listStyle}>
+                  <li style={listItemStyle}>Explain everything, even contradictions</li>
+                  <li style={listItemStyle}>Cannot be proven false by any observation</li>
+                  <li style={listItemStyle}>Avoid risks by being too flexible</li>
+                  <li style={listItemStyle}>Examples: Marxism, Freudian psychoanalysis</li>
+                </ul>
               </div>
             </div>
 
-            {/* Quick Reference */}
-            <div className="bg-blue-50 rounded-lg p-6 mb-8">
-              <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
-                <Code2 className="h-5 w-5 text-blue-600" />
-                Quick Reference: Popular Languages
-              </h3>
-              <ul className="space-y-2 text-slate-700">
-                <li>
-                  <strong>Python:</strong> Known for its simplicity, widely used in data science and AI
-                </li>
-                <li>
-                  <strong>JavaScript:</strong> Essential for creating interactive web applications
-                </li>
-                <li>
-                  <strong>Java:</strong> Popular for enterprise applications and Android development
-                </li>
-                <li>
-                  <strong>C++:</strong> Ideal for system programming and game development
-                </li>
-              </ul>
-            </div>
+            <p style={{ ...paragraphStyle, fontWeight: 500 }}>
+              The key difference: A scientific theory makes predictions that could potentially be proven wrong, while a
+              pseudo-scientific theory can explain any outcome and cannot be refuted.
+            </p>
+          </div>
+
+          {/* Summary */}
+          <div style={sectionStyle}>
+            <h2 style={sectionTitleStyle}>Summary</h2>
+            <p style={paragraphStyle}>
+              Popper's criterion of falsifiability provides a clear way to distinguish science from pseudo-science.
+              Scientific theories must be testable and potentially refutable. The more specific and risky the
+              predictions a theory makes, the more scientific it is.
+            </p>
+            <p style={paragraphStyle}>
+              Theories that can explain everything and cannot be proven wrong—no matter what evidence is presented—are
+              not scientific. This includes theories that are constantly adjusted to accommodate contradictory evidence.
+            </p>
+            <p style={paragraphStyle}>
+              Einstein's theory of relativity exemplifies a scientific theory because it made specific, testable
+              predictions that could have proven it wrong. In contrast, theories like Marxism and psychoanalysis could
+              explain any outcome and were therefore not genuinely scientific according to Popper.
+            </p>
           </div>
 
           {/* Call to Action */}
-          <div className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl p-6 text-white">
-            <h2 className="text-2xl font-bold mb-3">Ready to Test Your Knowledge?</h2>
-            <p className="mb-4">Take a short quiz to review what you've learned in Unit 1.</p>
-            <Link to="/quiz" className="bg-white text-blue-600 px-4 py-2 rounded-lg font-medium hover:bg-blue-50 transition-colors group flex items-center inline-flex">
-              Start Quiz
-              <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+          <div style={calloutStyle}>
+            <h2 style={calloutTitleStyle}>Ready to Test Your Understanding?</h2>
+            <p style={{ marginBottom: "1rem", lineHeight: 1.6 }}>
+              Take the quiz to see how well you understand Popper's concept of falsifiability and the distinction
+              between science and pseudo-science.
+            </p>
+            <Link to="/quiz" style={calloutButtonStyle}>
+              Start Quiz <ArrowRight size={16} style={{ marginLeft: "0.5rem" }} />
             </Link>
           </div>
         </div>
       </div>
-    </>
-  );
-};
+    </div>
+  )
+}
 
-export default Course;
+export default Course
+
