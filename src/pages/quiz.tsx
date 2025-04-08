@@ -91,16 +91,18 @@ export default function Quiz() {
   ]
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    let correctCount = 0
+    e.preventDefault();
+    let correctCount = 0;
     Object.keys(correctAnswers).forEach((key) => {
-      if (answers[key]?.toLowerCase() === correctAnswers[key].toLowerCase()) {
-        correctCount++
+      const userInput = answers[key]?.trim().toLowerCase();
+      const correctAnswer = correctAnswers[key].trim().toLowerCase();
+      if (userInput === correctAnswer) {
+        correctCount++;
       }
-    })
-    setScore(correctCount)
-    setShowResults(true)
-  }
+    });
+    setScore(correctCount);
+    setShowResults(true);
+  };  
 
   const handleInputChange = (questionId: string, value: string) => {
     setAnswers((prev) => ({
@@ -120,8 +122,11 @@ export default function Quiz() {
   }
 
   const isCorrect = (questionId: string) => {
-    return answers[questionId]?.toLowerCase() === correctAnswers[questionId].toLowerCase()
-  }
+    const userInput = answers[questionId]?.trim().toLowerCase();
+    const correctAnswer = correctAnswers[questionId].trim().toLowerCase();
+    return userInput === correctAnswer;
+  };
+  
 
   const progressPercentage = (Object.keys(answers).length / questions.length) * 100
 

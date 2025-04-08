@@ -19,6 +19,7 @@ import Profile from "./pages/ProfilePage";
 import Completed from "pages/completed";
 import Grades from "pages/GradesPage";
 import Certificate from "pages/CertificatePage";
+import SubmittedPage from "pages/SubmittedPage";
 
 import Clarity from "@microsoft/clarity";
 
@@ -50,6 +51,7 @@ const LayoutWithNavbar: React.FC = () => {
         <Route path="/completed" element={<Completed />} />
         <Route path="/grades" element={<Grades />} />
         <Route path="/certificate" element={<Certificate />} />
+        <Route path="/submitted" element={<SubmittedPage />} />
 
         <Route path="/" element={<Navigate to="/login" replace />} />
       </Routes>
